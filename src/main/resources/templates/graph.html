@@ -1,0 +1,91 @@
+<html>
+<head>
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <div id="chartContainer" style="width: 100%;"></div>
+    <script>
+        var  All= new Array()
+        var  Deaths= new Array()
+        var  Recovers= new Array()
+
+
+
+        var deaths = fetch("http://localhost:8080/bar/deaths")
+            .then(response => response.json())
+            .then(result =>{
+                for(var i in result){
+                    console.log(result[i])
+                    Deaths.push(result[i])
+                }
+            } )
+            .catch(error => console.log('error:', error));
+
+        var recovers = fetch("http://localhost:8080/bar/recovers")
+            .then(response => response.json())
+            .then(result =>{
+                    for(var i in result){
+                        console.log(result[i])
+                        Recovers.push(result[i])
+                    }
+                } )
+            .catch(error => console.log('error:', error));
+        var all =fetch("http://localhost:8080/bar/all")
+            .then(response => response.json())
+            .then(result =>{
+                for(var i in result){
+                    console.log(result[i])
+                    All.push(result[i])
+                }
+            } )
+            .catch(error => console.log('error:', error));
+
+        //console.log(all.toString().replace(`"y"`,"y").replace(`"label"`,"label"));
+
+        for(var i in recovers){
+            console.log(demo)
+        }
+
+        window.onload = function () {
+
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                theme: "light2",
+                title: {
+                    text: "Division of Products Sold in 2nd Quarter"
+                },
+                axisY: {
+                    interval: 10,
+                    suffix: "%"
+                },
+                toolTip: {
+                    shared: true
+                },
+                data: [
+                    {
+                        type: "stackedBar100",
+                        toolTipContent: "{label}<br><b>{name}:</b> {y} (#percent%)",
+                        showInLegend: true,
+                        name: "April",
+                        dataPoints: All
+                    },
+                    {
+                        type: "stackedBar100",
+                        toolTipContent: "<b>{name}:</b> {y} (#percent%)",
+                        showInLegend: true,
+                        name: "May",
+                        dataPoints: Deaths
+                    },
+                    {
+                        type: "stackedBar100",
+                        toolTipContent: "<b>{name}:</b> {y} (#percent%)",
+                        showInLegend: true,
+                        name: "June",
+                        dataPoints: Recovers
+                    }]
+            });
+            chart.render();
+        }
+    </script>
+</head>
+<body>
+</body>
+</html>

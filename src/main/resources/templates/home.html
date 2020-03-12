@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Coronavirus Tracker</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+<div class="container">
+    <h1>Coronavirus Tracker </h1>
+    <p>This application lists the current number of cases reported across the globe</p>
+    <p>Această aplicație listează numărul curent de cazuri raportate pe tot globul</p>
+
+    <div class="jumbotron">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-4 alert-warning">
+                    <h1 class="display-4 text-warning font-weight-bold" th:text="${totalReportedCases}"></h1>
+                    <p class="lead">Total cases reported as of today</p>
+                    <p class="lead">Total cazuri raportate astăzi</p>
+                    <hr class="my-4">
+                    <p>
+                        <span>Cazuri noi raportate din ziua precedentă:</span>
+                    <h2 th:text="${totalNewCases}"></h2>
+                    </p>
+                </div>
+                <div class="col-md-4 alert-danger">
+                    <h1 class="display-4 text-danger font-weight-bold" th:text="${totalDeaths}"></h1>
+                    <p class="lead">Total deaths reported as of today</p>
+                    <p class="lead">Total decesuri raportate astăzi</p>
+                    <hr class="my-4">
+
+                    <p>
+                        <span>Cazuri noi raportate din ziua precedentă:</span>
+                    <h2 th:text="${totalDiffDeaths}"></h2>
+                    </p>
+                </div>
+                <div class="col-md-4 alert-success">
+                    <h1 class="display-4 font-weight-bold" th:text="${totalRecovers}"></h1>
+                    <p class="lead">Total recovers reported as of today</p>
+                    <p class="lead">Total recuperări raportate astăzi</p>
+                    <hr class="my-4">
+                    <p>
+                        <span>Cazuri noi raportate din ziua precedentă:</span>
+                    <h2 th:text="${totalDiffRecovers}"></h2>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <table class="table">
+            <tr>
+                <th>State (Stat)</th>
+                <th>Country (Țara)</th>
+                <th>Total cases reported (Total cazuri raportate)</th>
+                <th>Changes since last day (Schimbări față de ziua precedentă)</th>
+                <!--  <th>Latitudine</th>
+                  <th>Longitudine</th> -->
+                <th>Deaths (Decesuri)</th>
+                <th>Recovers (Recuperări)</th>
+            </tr>
+            <tr th:each="locationStat : ${aggregateData}">
+                <td th:text="${locationStat.state}"></td>
+                <td th:text="${locationStat.country}"></td>
+
+                <td class="text-warning" th:text="${locationStat.latestTotalCases}">0</td>
+                <td class="text-danger" th:text="${locationStat.diffFromPrevDay}">0</td>
+                <!--  <td th:text="${locationStat.lat}">0</td>
+                  <td th:text="${locationStat.lng}">0</td> -->
+                <td class="text-danger" th:text="${locationStat.getLatestTotalDeaths()}">0</td>
+                <td class="text-success" th:text="${locationStat.getLatestTotalRecovers()}">0</td>
+
+            </tr>
+        </table>
+    </div>
+</div>
+
+</body>
+
+</html>
